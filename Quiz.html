@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Frontend Technologies Quiz</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .quiz-box {
+            background: #ffffff;
+            width: 420px;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .quiz-title {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #1e3a8a;
+        }
+
+        #question {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .options label {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background-color: #1e40af;
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-box">
+    <div class="quiz-title">Welcome to Frontend Technologies Quiz</div>
+
+    <div id="question"></div>
+    <div class="options" id="options"></div>
+
+    <button onclick="nextQuestion()">Next</button>
+</div>
+
+<script>
+const quizData = [
+    {
+        q: "What does HTML stand for?",
+        options: [
+            "Hyper Text Markup Language",
+            "High Text Machine Language",
+            "Hyperlinks Text Mark Language",
+            "Home Tool Markup Language"
+        ],
+        answer: 0
+    },
+  
+
+    {
+        q: "Which CSS property controls text color?",
+        options: [
+            "font-color",
+            "text-color",
+            "color",
+            "background-color"
+        ],
+        answer: 2
+    },
+    {
+        q: "Which layout system is best for two-dimensional layouts?",
+        options: [
+            "Flexbox",
+            "Grid",
+            "Float",
+            "Position"
+        ],
+        answer: 1
+    },
+    {
+        q: "Which symbol is used for ID selector in CSS?",
+        options: [
+            ".",
+            "#",
+            "*",
+            "@"
+        ],
+        answer: 1
+    },
+    {
+        q: "Which language adds interactivity to web pages?",
+        options: [
+            "HTML",
+            "CSS",
+            "Java",
+            "JavaScript"
+        ],
+        answer: 3
+    },
+    {
+        q: "Which JavaScript method selects an element by ID?",
+        options: [
+            "getElement()",
+            "querySelector()",
+            "getElementById()",
+            "getId()"
+        ],
+        answer: 2
+    },
+    {
+        q: "Which event occurs when a button is clicked?",
+        options: [
+            "onload",
+            "onhover",
+            "onclick",
+            "onchange"
+        ],
+        answer: 2
+    },
+   
+    {
+        q: "Which CSS unit is relative to viewport width?",
+        options: [
+            "px",
+            "em",
+            "%",
+            "vw"
+        ],
+        answer: 3
+    }
+];
+
+let currentIndex = 0;
+let score = 0;
+let selectedAnswer = null;
+
+const questionEl = document.getElementById("question");
+const optionsEl = document.getElementById("options");
+
+function loadQuestion() {
+    selectedAnswer = null;
+    optionsEl.innerHTML = "";
+
+    questionEl.innerText =
+        "Question " + (currentIndex + 1) + " of " + quizData.length + ": " +
+        quizData[currentIndex].q;
+
+    quizData[currentIndex].options.forEach((option, index) => {
+        const label = document.createElement("label");
+        label.innerHTML = `
+            <input type="radio" name="option" value="${index}">
+            ${option}
+        `;
+        label.querySelector("input").addEventListener("change", function () {
+            selectedAnswer = index;
+        });
+        optionsEl.appendChild(label);
+    });
+}
+
+function nextQuestion() {
+    if (selectedAnswer === null) {
+        alert("Please select an answer before proceeding.");
+        return;
+    }
+
+    if (selectedAnswer === quizData[currentIndex].answer) {
+        score++;
+    }
+
+    currentIndex++;
+
+    if (currentIndex < quizData.length) {
+        loadQuestion();
+    } else {
+        document.querySelector(".quiz-box").innerHTML = `
+            <div class="quiz-title">Quiz Completed</div>
+            <p>Your Score: <strong>${score} / ${quizData.length}</strong></p>
+        `;
+    }
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>
